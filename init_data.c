@@ -12,8 +12,9 @@
 
 #include "fillit.h"
 
-t_data	*get_tetrimino(char *str, char value);
-t_point	*point_new(int x, int y);
+t_data	*get_tetrip1o(char *str, char value);
+void	get_size(char *str, t_point *min, t_point *p2);
+
 
 t_list	*init_data(int fd)
 {
@@ -46,35 +47,40 @@ t_list	*init_data(int fd)
 
 t_data	*get_tetrimino(char *str, char value)
 {
-	t_point		*mi;
-	t_point		*max;
+	t_point		*p1;
+	t_point		*p2;
 	char		**pos;
 	int			i;
 	t_data		*data;
 
-	mi = point_new(3, 3);
-	max = point_new(0, 0);
-	min_max(str, mi, max);
-	pos = ft_memalloc(sizeof(char *) * (max->y - mi->y + 1));
+	p1 = new_point(3, 3);
+	p2 = new_point(0, 0);
 	i = 0;
-	while (i < max->y - mi->y + 1)
+	while (i < 20)
 	{
-		pos[i] = ft_strnew(max->x - mi->x + 1);
-		ft_strncpy(pos[i], str + (mi->x) + (i + mi->y) * 5, max->x - mi->x + 1);
+		if (str[i] == '#')
+		{
+			if (p1->x > i / 5)
+				p1->x = i / 5;
+			if (p2->x < i / 5)
+				p2->x = i / 5;
+			if (p1->y > i % 5)
+				p1->y = i % 5;
+			if (p2->y < i % 5)
+				p2->y = i % 5;
+		}
 		i++;
 	}
-	data = tetris_new(pos, max->x - mi->x + 1, max->y - mi->y + 1, value);
-	ft_memdel((void **)&mi);
-	ft_memdel((void **)&max);
+	pos = ft_memalloc(sizeof(char *) * (p2->x - p1->x + 1));
+	i = 0;
+	while (i < p2->x - p1->x + 1)
+	{
+		pos[i] = ft_strnew(p2->y - p1->y + 1);
+		ft_strncpy(pos[i], str + (p1->y) + (i + p1->x) * 5, p2->y - p1->y + 1);
+		i++;
+	}
+	data = new_tetris(pos, p2->y - p1->y + 1, p2->x - p1->x + 1, value);
+	ft_memdel((void **)&p1);
+	ft_memdel((void **)&p2);
 	return (data);
-}
-
-t_point	*point_new(int x, int y)
-{
-	t_point		*point;
-
-	point = ft_memalloc(sizeof(t_point));
-	point->x = x;
-	point->y = y;
-	return (point);
 }
