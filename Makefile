@@ -1,8 +1,15 @@
 NAME = fillit
 
-SRC = *.c
+SRC = backtracking.c \
+	c_lib.c \
+	c_lib2.c \
+	free_func.c \
+	init_func.c \
+	init_shape.c \
+	main.c \
+	validate.c
 
-HEADER = *.h
+HEADER = fillit.h
 
 
 all: $(NAME)

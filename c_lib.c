@@ -16,7 +16,7 @@
 ** C Lang Standard Lib Func
 */
 
-void	ft_putchar(char c)
+void		ft_putchar(char c)
 {
 	unsigned char a;
 
@@ -24,7 +24,7 @@ void	ft_putchar(char c)
 	write(1, &a, 1);
 }
 
-void	ft_putstr(char const *str)
+void		ft_putstr(char const *str)
 {
 	int i;
 
@@ -39,7 +39,7 @@ void	ft_putstr(char const *str)
 	return ;
 }
 
-char	*ft_strnew(size_t size)
+char		*ft_strnew(size_t size)
 {
 	char	*str;
 	size_t	i;
@@ -56,13 +56,13 @@ char	*ft_strnew(size_t size)
 	return (str);
 }
 
-void	ft_lstadd(t_list **alst, t_list *new)
+void		ft_lstadd(t_list **alst, t_list *new)
 {
 	new->next = *alst;
 	*alst = new;
 }
 
-t_list	*ft_lstnew(void const *content, size_t content_size)
+t_list		*ft_lstnew(void const *content, size_t content_size)
 {
 	t_list	*elem;
 
@@ -88,22 +88,3 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 	elem->next = NULL;
 	return (elem);
 }
-
-void	ft_memdel(void **ap)
-{
-	if (!ap)
-		return ;
-	free(*ap);
-	*ap = NULL;
-}
-
-void	*ft_memalloc(size_t size)
-{
-	void	*ptr;
-
-	ptr = malloc(size);
-	if (ptr)
-		ft_bzero(ptr, size);
-	return (ptr);
-}
-

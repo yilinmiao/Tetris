@@ -15,7 +15,7 @@ int		validate(char *str, int count)
 	int i;
 	int block;
 
- 	block = 0;
+	block = 0;
 	i = 0;
 	while (i < 20)
 	{
@@ -32,12 +32,12 @@ int		validate(char *str, int count)
 	}
 	if (count == 21 && str[20] != '\n')
 		return (-1);
-	if (!valid_tetrimino(str))
+	if (!valid_shape(str))
 		return (-1);
 	return (0);
 }
 
-int		valid_tetrimino(char *str)
+int		valid_shape(char *str)
 {
 	int block;
 	int i;

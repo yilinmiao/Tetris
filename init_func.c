@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-t_point	*new_point(int x, int y)
+t_point		*new_point(int x, int y)
 {
 	t_point		*point;
 
@@ -20,14 +20,34 @@ t_point	*new_point(int x, int y)
 	return (point);
 }
 
-t_data		*new_tetris(char **pos, int width, int height, char value)
+t_data		*new_shape(char **tab, int width, int height, char value)
 {
-	t_data		*tetris;
+	t_data		*shape;
 
-	tetris = ft_memalloc(sizeof(t_data));
-	tetris->pos = pos;
-	tetris->width = width;
-	tetris->height = height;
-	tetris->value = value;
-	return (tetris);
+	shape = ft_memalloc(sizeof(t_data));
+	shape->tab = tab;
+	shape->width = width;
+	shape->height = height;
+	shape->value = value;
+	return (shape);
+}
+
+t_map		*new_map(int size)
+{
+	char	**map;
+	int		i;
+	int		j;
+
+	i = -1;
+	map = (char**)malloc(sizeof(char*) * size + 1);
+	map[size] = NULL;
+	while (++i < size)
+	{
+		j = -1;
+		map[i] = (char*)malloc(sizeof(char) * (size + 1));
+		while (++j < size)
+			map[i][j] = '.';
+		map[i][size] = '\0';
+	}
+	return (map);
 }
