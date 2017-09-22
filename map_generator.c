@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-char	**ft_give_me_map(t_list *list, t_data *data)
+char	**generate_map(t_list *list, t_data *data)
 {
 	int		mapsize;
 	char	**map;
@@ -83,7 +83,7 @@ t_data	*ft_list_to_data_point(t_data *data, int i, int j)
 	return (data);
 }
 
-void	ft_printmap(char **map)
+void	print_map(char **map)
 {
 	int i;
 	int j;

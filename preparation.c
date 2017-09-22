@@ -12,30 +12,24 @@
 
 #include "fillit.h"
 
-t_list	*ft_init_list(t_list *list)
+void		define_global_variable(void)
 {
-	int i;
-	int j;
+	int		i;
 
-	i = -1;
-	list = (t_list*)malloc(sizeof(t_list));
-	if (!list)
-		return (NULL);
-	while (++i < 4)
+	g_num = 0;
+	i = 0;
+	while (i < 26)
 	{
-		j = -1;
-		while (++j < 4)
-			list->tetr[i][j] = 'w';
-		list->tetr[i][j] = 0;
+		g_letter[i] = 'A' + i;
+		i++;
 	}
-	list->next = NULL;
-	return (list);
 }
 
-t_data	*ft_init_data(t_data *data)
+t_data		*new_tetris(void)
 {
-	int i;
-	int j;
+	t_data		*data;
+	int			i;
+	int			j;
 
 	data = (t_data*)malloc(sizeof(t_data));
 	if (!data)
@@ -57,20 +51,8 @@ t_data	*ft_init_data(t_data *data)
 	return (data);
 }
 
-void	init_global(void)
-{
-	int i;
 
-	g_num = 0;
-	i = 0;
-	while (i < 26)
-	{
-		g_letter[i] = 'A' + i;
-		i++;
-	}
-}
-
-char	**ft_init_map(int mapsize)
+char		**ft_init_map(int mapsize)
 {
 	char	**map;
 	int		i;
@@ -90,13 +72,3 @@ char	**ft_init_map(int mapsize)
 	return (map);
 }
 
-t_list	*ft_pre_openfile(char *filename, t_list *list)
-{
-	int fd;
-
-	if ((fd = open(filename, O_RDONLY)) < 0)
-		return (NULL);
-	if ((list = ft_pre_readfile(list, fd)) == NULL)
-		return (NULL);
-	return (list);
-}

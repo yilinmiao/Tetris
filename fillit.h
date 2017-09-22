@@ -43,17 +43,29 @@ typedef struct	s_list
 }				t_list;
 
 /*
+** list_generator.c
+*/
+
+t_list			*new_list(void);
+t_list			*generate_tetris_list(char *filename, t_list *list);
+
+/*
 ** preparation.c
 */
 
-t_list			*ft_init_list(t_list *list);
-t_data			*ft_init_data(t_data *data);
-void			init_global();
+void			define_global_variable(void);
+
+/*
+** c_lib.c
+*/
+
+void			ft_putchar(char c);
+void			ft_putstr(char const *str);
 
 /*
 ** ft_pre_list.c
 */
-
+t_data			*new_tetris(void);
 t_list			*ft_pre_newlist(t_list *list);
 
 int				ft_invaild_list(t_list *list);
@@ -65,8 +77,6 @@ t_list			*ft_pre_buf(char *buf, t_list *list, int ret);
 char			*ft_strnew(size_t size);
 
 t_list			*ft_pre_readfile(t_list *list, int fd);
-
-t_list			*ft_pre_openfile(char *filename, t_list *list);
 
 /*
 ** ft_list_to_data.c
@@ -102,17 +112,13 @@ char			**ft_try_map(t_data *data, char **map, int mapsize, int *i);
 char			**ft_checkmap_samemapsize(t_data *data, int mapsize,
 						char **map);
 
-char			**ft_give_me_map(t_list *list, t_data *data);
+char			**generate_map(t_list *list, t_data *data);
 
 /*
 ** fillit.c
 */
 
-void			ft_putchar(char c);
-
-void			ft_putstr(char const *str);
-
-void			ft_printmap(char **map);
+void			print_map(char **map);
 
 void			ft_fillit(int argc, char **argv);
 
