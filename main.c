@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymiao <ymiao@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/19 22:29:47 by ymiao             #+#    #+#             */
-/*   Updated: 2017/09/19 22:29:48 by ymiao            ###   ########.fr       */
+/*   Created: 2017/09/21 21:42:07 by ymiao             #+#    #+#             */
+/*   Updated: 2017/09/21 21:42:09 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,26 @@
 
 int		main(int argc, char **argv)
 {
-	t_list		*list;
-	t_map		*map;
-	int			i;
+	t_list	*list;
+	t_data	*data;
+	char	**map;
 
+	list = NULL;
+	data = NULL;
+	list = ft_init_list(list);
+	data = ft_init_data(data);
+	init_global();
 	if (argc != 2)
 	{
-		ft_putstr("Error: need file\n");
+		ft_putstr("error\n");
 		return (-1);
 	}
-	if ((list = init_shape(open(argv[1], O_RDONLY))) == NULL)
+	if ((list = ft_pre_openfile(argv[1], list)) == NULL)
 	{
-		ft_putstr("Error: can't read file\n");
+		ft_putstr("error\n");
 		return (-1);
 	}
-	map = generate_map(list);
-	i = 0;
-	while (i < map->size)
-	{
-		ft_putstr(map->array[i]);
-		ft_putchar('\n');
-		i++;
-	}
-	free_map(map);
-	free_list(list);
+	map = ft_give_me_map(list, data);
+	ft_printmap(map);
 	return (0);
 }

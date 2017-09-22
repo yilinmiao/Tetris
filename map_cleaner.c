@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c_lib3.c                                           :+:      :+:    :+:   */
+/*   map_cleaner.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymiao <ymiao@student.42.us.org>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/21 16:05:50 by ymiao             #+#    #+#             */
-/*   Updated: 2017/09/21 16:05:51 by ymiao            ###   ########.fr       */
+/*   Created: 2017/09/21 22:19:06 by ymiao             #+#    #+#             */
+/*   Updated: 2017/09/21 22:19:07 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-/*
-** C Lang Standard Lib Func
-*/
-
-void	*ft_memset(void *b, int c, size_t len)
+void	ft_free_map(char **map, int mapsize)
 {
-	unsigned char	*str;
+	int		i;
 
-	str = (unsigned char *)b;
-	while (len--)
-		*str++ = (unsigned char)c;
-	return (b);
+	i = -1;
+	while (++i < mapsize)
+		free(map[i]);
+	free(map);
 }
 
-void	ft_bzero(void *s, size_t n)
+char	**ft_map_clean(char **map, int n, int mapsize)
 {
-	ft_memset(s, 0, n);
+	int i;
+	int j;
+
+	i = -1;
+	while (++i < mapsize)
+	{
+		j = -1;
+		while (++j < mapsize)
+		{
+			if (map[i][j] == g_letter[n])
+				map[i][j] = '.';
+		}
+	}
+	return (map);
 }
