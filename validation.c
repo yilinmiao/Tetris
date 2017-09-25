@@ -12,19 +12,19 @@
 
 #include "fillit.h"
 
-t_list	*ft_pre_buf(char *buf, t_list *list, int ret)
+t_list	*validate(char *str, t_list *list, int count)
 {
 	int n;
 
 	n = 0;
 	if (list == NULL)
 		return (NULL);
-	if ((buf[4] != '\n') || (buf[9] != '\n')
-			|| (buf[14] != '\n') || (buf[19] != '\n'))
+	if ((str[4] != '\n') || (str[9] != '\n')
+			|| (str[14] != '\n') || (str[19] != '\n'))
 		return (NULL);
-	if ((ret == 21) && (buf[20] != '\n'))
+	if ((count == 21) && (str[20] != '\n'))
 		return (NULL);
-	if (!ft_pre_buf_part2(buf, list, n))
+	if (!ft_pre_buf_part2(str, list, n))
 		return (NULL);
 	if (ft_invaild_list(list) == 0)
 		return (NULL);
@@ -102,14 +102,4 @@ int		ft_invaild_list(t_list *list)
 	if (n == 4)
 		return (0);
 	return (1);
-}
-
-char	ft_point_check(char a_data, char b_map)
-{
-	if (b_map != '.' && a_data != '.')
-		return (0);
-	if (b_map != '.' && a_data == '.')
-		return (b_map);
-	else
-		return (a_data);
 }

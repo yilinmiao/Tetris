@@ -12,9 +12,16 @@
 
 NAME = fillit
 
-SRC = *.c
+SRC = main.c \
+	list_generator.c \
+	map_generator.c \
+	tetris_generator.c \
+	map_preparation.c \
+	validation.c \
+	map_cleaner.c \
+	c_lib.c
 
-HEADER = *.h
+HEADER = fillit.h
 
 
 all: $(NAME)

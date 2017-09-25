@@ -47,13 +47,9 @@ typedef struct	s_list
 */
 
 t_list			*new_list(void);
-t_list			*generate_tetris_list(char *filename, t_list *list);
-
-/*
-** preparation.c
-*/
-
+t_list			*generate_tetris_list(int fd);
 void			define_global_variable(void);
+t_data			*new_tetris(void);
 
 /*
 ** c_lib.c
@@ -61,65 +57,50 @@ void			define_global_variable(void);
 
 void			ft_putchar(char c);
 void			ft_putstr(char const *str);
-
-/*
-** ft_pre_list.c
-*/
-t_data			*new_tetris(void);
-t_list			*ft_pre_newlist(t_list *list);
-
-int				ft_invaild_list(t_list *list);
-
-int				ft_pre_buf_part2(char *buf, t_list *list, int n);
-
-t_list			*ft_pre_buf(char *buf, t_list *list, int ret);
-
 char			*ft_strnew(size_t size);
 
-t_list			*ft_pre_readfile(t_list *list, int fd);
-
 /*
-** ft_list_to_data.c
+** validation.c
 */
 
-t_data			*ft_pre_newdata(t_data *data);
-
-t_data			*ft_list_to_data_point(t_data *data, int i, int j);
-
-t_data			*ft_list_to_data(t_list *list, t_data *data, char a);
-
-t_data			*ft_give_me_data(t_list *list, t_data *data);
+t_list			*validate(char *str, t_list *list, int count);
+int				ft_pre_buf_part2(char *buf, t_list *list, int n);
+int				ft_invaild_list(t_list *list);
+int				ft_invaild_list_around(t_list *list, int i, int j);
 
 /*
-** ft_slover.c
+** map_preparation.c
 */
 
-int				ft_minmapsize(int num);
-
-char			**ft_init_map(int mapsize);
-
-void			ft_free_map(char **map, int mapsize);
-
-char			ft_point_check(char a_data, char b_map);
-
-char			**ft_map_clean(char **map, int n, int mapsize);
-
-char			**ft_putmap_check(t_data *data, char **map,
-						int *i, int mapsize);
-
-char			**ft_try_map(t_data *data, char **map, int mapsize, int *i);
-
-char			**ft_checkmap_samemapsize(t_data *data, int mapsize,
-						char **map);
-
-char			**generate_map(t_list *list, t_data *data);
-
-/*
-** fillit.c
-*/
-
+int				get_min_size(int num);
+char			**new_map(int mapsize);
 void			print_map(char **map);
 
-void			ft_fillit(int argc, char **argv);
+/*
+** map_generator.c
+*/
+
+char			**generate_map(t_list *list);
+char			**ft_putmap_check(t_data *data, char **map,
+						int *i, int mapsize);
+char			**try_map(t_data *data, char **map, int mapsize, int *i);
+char			**ft_checkmap_samemapsize(t_data *data, int mapsize,
+						char **map);
+char			ft_point_check(char a_data, char b_map);
+
+/*
+** tetris_generator.c
+*/
+
+t_data			*get_tetris(t_list *list);
+t_data			*get_position(t_data *data, int i, int j);
+t_data			*ft_list_to_tetris(t_list *list, t_data *data, char a);
+
+/*
+** map_cleaner.c
+*/
+
+void			ft_free_map(char **map, int mapsize);
+char			**ft_map_clean(char **map, int n, int mapsize);
 
 #endif

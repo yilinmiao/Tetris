@@ -12,92 +12,100 @@
 
 #include "fillit.h"
 
-char	**generate_map(t_list *list, t_data *data)
+char	**generate_map(t_list *list)
 {
 	int		mapsize;
 	char	**map;
+	t_data	*tetris;
 
-	mapsize = ft_minmapsize(g_num);
-	map = ft_init_map(mapsize);
-	data = ft_give_me_data(list, data);
-	while ((ft_checkmap_samemapsize(data, mapsize, map)) == NULL)
+	mapsize = get_min_size(g_num);
+	map = new_map(mapsize);
+	tetris = get_tetris(list);
+	while ((ft_checkmap_samemapsize(tetris, mapsize, map)) == NULL)
 	{
 		ft_free_map(map, mapsize);
 		mapsize++;
-		map = ft_init_map(mapsize);
+		map = new_map(mapsize);
 	}
 	return (map);
 }
 
-t_data	*ft_give_me_data(t_list *list, t_data *data)
+char	**ft_checkmap_samemapsize(t_data *data, int mapsize, char **map)
 {
-	int		i;
-	t_data	*start;
+	int i[2];
 
-	start = data;
-	i = 0;
-	while (i < g_num)
+	i[0] = -1;
+	while (++i[0] < mapsize)
 	{
-		data = ft_list_to_data(list, data, g_letter[i]);
-		data->n = i;
-		i++;
-		list = list->next;
-		if (i < g_num)
-			data = ft_pre_newdata(data);
+		i[1] = -1;
+		while (++i[1] < mapsize)
+		{
+			if (try_map(data, map, mapsize, i))
+				return (map);
+		}
 	}
-	return (start);
+	return (NULL);
 }
 
-t_data	*ft_list_to_data(t_list *list, t_data *data, char c)
+char	**try_map(t_data *data, char **map, int mapsize, int *i)
 {
-	int		i;
-	int		j;
+	int a[2];
 
-	i = -1;
-	while (++i < 4)
+	if (((i[0] + (data->point[2] - data->point[0])) >= mapsize)
+			|| ((i[1] + (data->point[3] - data->point[1])) >= mapsize))
+		return (NULL);
+	if ((ft_putmap_check(data, map, i, mapsize)))
 	{
-		j = -1;
-		while (++j < 4)
+		if (!data->next)
+			return (map);
+		a[0] = -1;
+		while (++a[0] < mapsize)
 		{
-			data->tetr[i][j] = list->tetr[i][j];
-			if (data->tetr[i][j] == '#')
+			a[1] = -1;
+			while (++a[1] < mapsize)
 			{
-				data = ft_list_to_data_point(data, i, j);
-				data->tetr[i][j] = c;
+				if (try_map(data->next, map, mapsize, a))
+					return (map);
 			}
 		}
 	}
-	return (data);
+	ft_map_clean(map, data->n, mapsize);
+	return (NULL);
 }
 
-t_data	*ft_list_to_data_point(t_data *data, int i, int j)
+char	**ft_putmap_check(t_data *data, char **map, int *i, int mapsize)
 {
-	if (data->point[0] > i)
-		data->point[0] = i;
-	if (data->point[1] > j)
-		data->point[1] = j;
-	if (data->point[2] < i)
-		data->point[2] = i;
-	if (data->point[3] < j)
-		data->point[3] = j;
-	return (data);
-}
+	int		a;
+	int		b;
+	char	temp;
 
-void	print_map(char **map)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (map[i])
+	a = -1;
+	while (++a <= (data->point[2] - data->point[0]))
 	{
-		j = 0;
-		while (map[i][j])
+		b = -1;
+		while (++b <= (data->point[3] - data->point[1]))
 		{
-			ft_putchar(map[i][j]);
-			j++;
+			temp = ft_point_check(
+				data->tetr[data->point[0] + a][data->point[1] + b],
+				map[i[0] + a][i[1] + b]);
+			if (temp)
+				map[a + i[0]][b + i[1]] = temp;
+			if (!temp)
+			{
+				ft_map_clean(map, data->n, mapsize);
+				return (NULL);
+			}
 		}
-		ft_putchar('\n');
-		i++;
 	}
+	return (map);
+}
+
+char	ft_point_check(char a_data, char b_map)
+{
+	if (b_map != '.' && a_data != '.')
+		return (0);
+	if (b_map != '.' && a_data == '.')
+		return (b_map);
+	else
+		return (a_data);
 }
